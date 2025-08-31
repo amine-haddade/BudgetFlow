@@ -1,4 +1,4 @@
-import { ZodObject, ZodRawShape, ZodError } from "zod";
+import { ZodObject, ZodRawShape } from "zod";
 import { Request, Response, NextFunction } from "express";
 type AnyZodObject = ZodObject<ZodRawShape>;
 
@@ -10,8 +10,7 @@ interface ValidationError {
 export const validate = (schema: AnyZodObject) => 
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const validationResult = await schema.safeParseAsync(req.body);
-      
+        const validationResult = await schema.safeParseAsync(req.body);
       if (!validationResult.success) {
         const zodError = validationResult.error;
         const errors: ValidationError[] = zodError.issues.map(issue => ({

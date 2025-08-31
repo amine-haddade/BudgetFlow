@@ -3,7 +3,11 @@ import dotenv from "dotenv";
 import { connectDBMongoose } from "./Config/db";
 import cookieParser from "cookie-parser";
 import authRouter from "./Routes/authRoutes"
-import { CustomRequest, protect } from "./Middlewares/authMiddleware";
+import walletRouter from "./Routes/walletRouter"
+import {  protect } from "./Middlewares/authMiddleware";
+import { CustomRequest } from "./Types/CustomReequest";
+import CategoryRouter from "./Routes/CategoryRouter";
+import TransactionRoute from "./Routes/TransactionRoutes";
 
 // Charger les variables d'environnement
 dotenv.config();
@@ -14,7 +18,22 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
+// auth api
 app.use("/api/auth",authRouter)
+// wallet api 
+app.use("/api/wallet",walletRouter)
+// category api 
+app.use("/api/category",CategoryRouter)
+// transaction  api 
+app.use("/api/transaction",TransactionRoute)
+
+
+
+
+
+
+
+
 // Route test
 app.get("/users",protect, (req:CustomRequest, res) => {
   res.json({message:"test protecte User",user:req.user});
