@@ -8,6 +8,8 @@ import {  protect } from "./Middlewares/authMiddleware";
 import { CustomRequest } from "./Types/CustomReequest";
 import CategoryRouter from "./Routes/CategoryRouter";
 import TransactionRoute from "./Routes/TransactionRoutes";
+import ReportTransaction from "./Routes/RapportRoutes";
+import ExportTransaction from "./Routes/exportRoutes";
 
 // Charger les variables d'environnement
 dotenv.config();
@@ -26,19 +28,14 @@ app.use("/api/wallet",walletRouter)
 app.use("/api/category",CategoryRouter)
 // transaction  api 
 app.use("/api/transaction",TransactionRoute)
-
-
-
-
-
-
-
-
+// report Transaction
+app.use('/api',ReportTransaction)
+// exports Transaction routes
+app.use('/api',ExportTransaction)
 // Route test
 app.get("/users",protect, (req:CustomRequest, res) => {
   res.json({message:"test protecte User",user:req.user});
 });
-
 
 // Route test
 app.get("/", (req, res) => {
