@@ -2,14 +2,11 @@ import type { NextFunction, Request, Response } from "express"
 import jwt from "jsonwebtoken"
 import dotenv from "dotenv";
 import User from "../models/User";
+import { CustomRequest } from "../Types/CustomReequest";
 dotenv.config();
 
 interface JwtPayload {
     id:string
-}
-
-export interface CustomRequest extends Request {
-  user?: any; // tu peux mettre ton type User ici si défini
 }
 
 

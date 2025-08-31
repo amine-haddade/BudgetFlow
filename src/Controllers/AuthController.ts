@@ -12,7 +12,7 @@ export const registerUser = async (req: Request, res: Response) => {
   if (userExists) {
     return res.status(400).json({ message: "Utilisateur déjà existant" });
   }
-  const user : IUser =await User.create({name,email,password})
+  const user : IUser = await User.create({name,email,password})
  if (user) {
     const userId = (user._id as any).toString();
     const accessToken = generetAccesToken(userId);
@@ -24,12 +24,15 @@ export const registerUser = async (req: Request, res: Response) => {
       sameSite: "strict",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
+
+
      res.status(201).json({
       _id: user._id,
       name: user.name,
       email: user.email,
       token: accessToken,
     });
+    
     } else {
     res.status(400).json({ message: "Données invalides" });
   };
