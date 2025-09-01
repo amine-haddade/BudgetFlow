@@ -6,7 +6,6 @@ import { CustomRequest } from "../Types/CustomReequest";
 export const createWallet = async (req: CustomRequest, res: Response) => {
   try {
     const { name, description, currency, initialBudget } = req.body;
-    console.log('dkfsdfposd')
     
     const wallet = await Wallet.create({
         name,
@@ -24,7 +23,6 @@ export const createWallet = async (req: CustomRequest, res: Response) => {
       data: wallet,
     });
   } catch (error) {
-      console.log("lkjanf;kjSD")
       return res.status(500).json({
           status: "error",
           message: error instanceof Error ? error.message : "Server error",

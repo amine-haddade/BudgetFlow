@@ -96,14 +96,14 @@ export const getUserMonthlyReport = async (req: CustomRequest, res: Response) =>
 
       return {
         walletId: w._id,
-        walletName: w.name,
+        walletName: w.name, 
         income,
         expense,
         balance: income - expense
       };
     });
 
-    // 4️⃣ ajouter un résumé global (tous wallets confondus)
+    // 4️ ajouter un résumé global (tous wallets confondus)
     const totalIncome = result.reduce((acc, r) => acc + r.income, 0);
     const totalExpense = result.reduce((acc, r) => acc + r.expense, 0);
 
