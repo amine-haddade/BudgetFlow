@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import Transaction from "../models/Transaction";
 import { CustomRequest } from "../Types/CustomReequest";
 import Wallet from "../models/Wallet";
+import redis from "../Config/Redis";
 
 // Créer une transaction
 // Créer une transaction avec gestion du solde
@@ -45,6 +46,14 @@ export const createTransaction = async (req: CustomRequest, res: Response) => {
 
     // 4️ Sauvegarder le wallet mis à jour
     await walletDoc.save();
+
+    // Extraire l'année et le mois de la date de la transaction
+    const transactionDate = new Date(date);
+    const year = transactionDate.getFullYear();
+    const month = transactionDate.getMonth() + 1;
+
+    // Invalider le cache du rapport mensuel
+    await redis.del(`report:${req.user._id}:${year}-${month}`);
 
     return res.status(201).json({
       status: "success",
@@ -106,7 +115,14 @@ export const updateTransaction = async (req: CustomRequest, res: Response) => {
         message: "Transaction not found or unauthorized",
       });
     }
+    // Extraire l'année et le mois de la date de la transaction
+    const transactionDate = new Date(date);
+    const year = transactionDate.getFullYear();
+    const month = transactionDate.getMonth() + 1;
 
+    // Invalider le cache du rapport mensuel
+    await redis.del(`report:${req.user._id}:${year}-${month}`);
+    
     return res.status(200).json({
       status: "success",
       message: "Transaction updated successfully",
@@ -134,6 +150,13 @@ export const deleteTransaction = async (req: CustomRequest, res: Response) => {
         message: "Transaction not found or unauthorized",
       });
     }
+        // Extraire l'année et le mois de la date de la transaction
+    const transactionDate = new Date(transaction.date);
+    const year = transactionDate.getFullYear();
+    const month = transactionDate.getMonth() + 1;
+
+    // Invalider le cache du rapport mensuel
+    await redis.del(`report:${req.user._id}:${year}-${month}`);
 
     return res.status(200).json({
       status: "success",
