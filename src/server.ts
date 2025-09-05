@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import cors from "cors";
 import { connectDBMongoose } from "./Config/db";
 import cookieParser from "cookie-parser";
 import authRouter from "./Routes/authRoutes"
@@ -15,6 +16,14 @@ import ExportTransaction from "./Routes/exportRoutes";
 dotenv.config();
 connectDBMongoose()
 const app = express();
+
+// Configuration CORS
+app.use(cors({
+  origin: 'http://localhost:5173', // URL de ton frontend
+  credentials: true, // Important pour les cookies
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 // Middleware pour JSON
 app.use(express.json());
