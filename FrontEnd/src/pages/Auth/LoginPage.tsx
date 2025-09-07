@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
-import loginPhoto  from "../../assets/Pote de dinheiro 3D da planta com flor de moeda de ouro e pilha de moedas no fundo roxo_ Renderização de ilustração 3D. _ Foto Premium. _ Foto Premium.png"
+import loginPhoto  from "../../assets/Image.png"
+import { toast } from 'sonner';
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
@@ -21,9 +22,22 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (error) {
+      toast.error(error, {
+  style: {
+    background: "#FF2E2E", // rouge
+    color: "white",
+    border:"none"
+  },
+  
+  duration: 5000,
+  action:{
+    label:"Again",
+    onClick:()=>{console.log("Again")}
+  }
+}); // ou toast(error)
       clearAuthError();
     }
-  }, [formData, clearAuthError]);
+  }, [formData,error, clearAuthError]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -42,8 +56,8 @@ const LoginPage = () => {
     }
     if (!formData.password) {
       errors.password = 'Le mot de passe est requis';
-    } else if (formData.password.length < 6) {
-      errors.password = 'Le mot de passe doit contenir au moins 6 caractères';
+    } else if (formData.password.length < 8) {
+      errors.password = 'Le mot de passe doit contenir au moins 8 caractères';
     }
     setValidationErrors(errors);
     return Object.keys(errors).length === 0;
@@ -56,7 +70,7 @@ const LoginPage = () => {
     }
     const result = await login(formData);
     if (!result.success) {
-      console.error('Erreur de connexion:', result.error);
+        console.error('Erreur de connexion:', result.error);
     }
   };
 
@@ -121,17 +135,13 @@ const LoginPage = () => {
               </div>
             </div>
 
-            {error && (
-              <div className="rounded-md bg-red-50 p-4">
-                <div className="text-sm text-red-700">{error}</div>
-              </div>
-            )}
+            
 
             <div>
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full flex  justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-md font-medium text-black bg-primary hover:bg-primar-hover focus:outline-none focus:ring-2  cursor-pointer focus:ring-offset-2 focus:ring-gray-500 disabled:opacity-50"
+                className="w-full flex  justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-md font-medium text-black bg-primaryGreen hover:bg-primarGreen-hover focus:outline-none focus:ring-2  cursor-pointer focus:ring-offset-2 focus:ring-gray-500 disabled:opacity-50"
               >
                 {loading ? 'Signing in...' : 'Sign in'}
               </button>
@@ -140,6 +150,7 @@ const LoginPage = () => {
             <div>
               <button
                 type="button"
+                
                 className="w-full cursor-pointer  flex items-center justify-center py-3 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
               >
                 <img className="h-5 w-5 mr-2" src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google logo" />
@@ -158,11 +169,11 @@ const LoginPage = () => {
       </div>
 
       {/* Right side: Image */}
-      <div className="hidden md:flex w-1/2 bg-gray-100 justify-center items-center overflow-hidden">
+      <div className="hidden md:flex w-1/2 bg-gray-100 justify-center items-start overflow-hidden">
         <img 
           src={loginPhoto} 
           alt="Login illustration"  
-          className="h-screen w-full object-cover" 
+          className="h-screen  w-full object-cover"         
         />
       </div>
 
