@@ -2,8 +2,8 @@ import { createBrowserRouter } from "react-router-dom";
 import GuestLayout from "../Layouts/GuestLayout";
 import ProtectedRoutes from "./ProtectedRoutes";
 import DefaultLayout from "../Layouts/DefaultLayouts";
-import LoginPage from "../Auth/LoginPage";
-import RegisterPage from "../Auth/RegisterPage";
+import LoginPage from "../pages/Auth/LoginPage";
+import RegisterPage from "../pages/Auth/RegisterPage";
 
 const router = createBrowserRouter([
   {

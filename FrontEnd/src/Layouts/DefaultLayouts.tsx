@@ -33,7 +33,7 @@ const DefaultLayout = () => {
             </button>
           </div>
         </header>
-        <main className="flex-1 overflow-auto p-4 bg-gray-50">
+        <main className="">
           <Outlet />
         </main>
       </div>

@@ -8,7 +8,7 @@ const GuestLayout = () => {
   if (token && user) return <Navigate to="/" />;
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-50">
+    <div className="h-screen bg-gray-50">
       <Outlet />
     </div>
   );

@@ -7,9 +7,9 @@ import {
   registerUser, 
   logoutUser, 
   clearError,
-  type LoginCredentials,
-  type RegisterCredentials 
 } from "../Redux/slices/authSlice";
+import type { LoginCredentials } from '../types/Auth/LoginCredentials';
+import type { RegisterCredentials } from '../types/Auth/RegisterCredentials';
 
 export const useAuth = () => {
   const dispatch = useDispatch<AppDispatch>();

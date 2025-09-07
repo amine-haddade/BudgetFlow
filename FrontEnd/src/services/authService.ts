@@ -40,7 +40,7 @@ apiClient.interceptors.response.use(
     
     // Si l'erreur est 401 et qu'on n'a pas déjà tenté de refresh
     if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
+      originalRequest._retry = true; // Sert à marquer qu’on a déjà essayé de refresh le token pour cette requête.
       
       try {
         // Tenter de refresh le token

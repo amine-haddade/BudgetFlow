@@ -1,30 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import apiClient from '../../services/authService';
+import type { AuthState } from '../../types/Auth/AuthState';
+import type { LoginCredentials } from '../../types/Auth/LoginCredentials';
+import type { RegisterCredentials } from '../../types/Auth/RegisterCredentials';
 
-interface User {
-  _id: string;
-  email: string;
-  name: string;
-}
 
-interface AuthState {
-  user: User | null;
-  token: string | null;
-  isAuthenticated: boolean;
-  loading: boolean;
-  error: string | null;
-}
-
-export interface LoginCredentials {
-  email: string;
-  password: string;
-}
-
-export interface RegisterCredentials {
-  name: string;
-  email: string;
-  password: string;
-}
 
 interface AuthResponse {
   _id: string;
