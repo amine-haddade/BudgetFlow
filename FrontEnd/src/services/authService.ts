@@ -13,6 +13,10 @@ const apiClient = axios.create({
   },
 });
 
+// Single-flight control to avoid multiple refresh calls
+let isRefreshing = false;
+let refreshPromise: Promise<void> | null = null;
+
 // Interceptor pour ajouter le token à chaque requête
 apiClient.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
@@ -36,33 +40,61 @@ apiClient.interceptors.response.use(
     return response;
   },
   async (error) => {
-    const originalRequest = error.config;
-    
+    const originalRequest = error.config as any;
+
+    const status = error.response?.status;
+    const url: string = originalRequest?.url || '';
+    const isAuthEndpoint = ['/api/auth/login', '/api/auth/register', '/api/auth/refresh-token', '/api/auth/logout']
+      .some((path) => url.includes(path));
+
+    // Ne jamais tenter de refresh pour les endpoints d'auth eux-mêmes
+    if (isAuthEndpoint) {
+      return Promise.reject(error);
+    }
+
     // Si l'erreur est 401 et qu'on n'a pas déjà tenté de refresh
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true; // Sert à marquer qu’on a déjà essayé de refresh le token pour cette requête.
-      
+    if (status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true; // Marque la tentative de refresh pour cette requête
+
       try {
-        // Tenter de refresh le token
-        await store.dispatch(refreshToken());
-        
-        // Récupérer le nouveau token
+        if (!isRefreshing) {
+          isRefreshing = true;
+          // Lance un seul refresh pour toutes les requêtes concurrentes
+          refreshPromise = store
+            .dispatch<any>(refreshToken())
+            .then(() => {
+              // ok
+            })
+            .catch((refreshError: any) => {
+              // Si le refresh échoue, on nettoie et redirige
+              store.dispatch(clearAuth());
+              window.location.href = '/login';
+              throw refreshError;
+            })
+            .finally(() => {
+              isRefreshing = false;
+              refreshPromise = null;
+            });
+        }
+
+        // Attendre le refresh en cours si déjà lancé
+        if (refreshPromise) {
+          await refreshPromise;
+        }
+
+        // Récupérer le nouveau token et rejouer la requête
         const state = store.getState();
         const newToken = state.auth.token;
-        
         if (newToken) {
-          // Retry la requête originale avec le nouveau token
+          originalRequest.headers = originalRequest.headers || {};
           originalRequest.headers.Authorization = `Bearer ${newToken}`;
-          return apiClient(originalRequest);
         }
+        return apiClient(originalRequest);
       } catch (refreshError) {
-        // Si le refresh échoue, déconnecter l'utilisateur
-        store.dispatch(clearAuth());
-        window.location.href = '/login';
         return Promise.reject(refreshError);
       }
     }
-    
+
     return Promise.reject(error);
   }
 );
