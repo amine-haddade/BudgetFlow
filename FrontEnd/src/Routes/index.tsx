@@ -4,6 +4,9 @@ import ProtectedRoutes from "./ProtectedRoutes";
 import DefaultLayout from "../Layouts/DefaultLayouts";
 import LoginPage from "../pages/Auth/LoginPage";
 import RegisterPage from "../pages/Auth/RegisterPage";
+import WalletsPage from "../pages/WalletsPage";
+import DashbordPage from "../pages/DashbordPage";
+import NotFoundPage from "../pages/NotFoundPage";
 
 const router = createBrowserRouter([
   {
@@ -20,8 +23,8 @@ const router = createBrowserRouter([
       {
         element: <DefaultLayout />,
         children: [
-          { path: "/", element: <div className="p-8"><h1 className="text-2xl font-bold">Dashboard - Bienvenue !</h1></div> },
-        //   { path: "/wallets", element: <WalletsPage /> },
+          { path: "/", element:<DashbordPage/>},
+          { path: "/wallets", element: <WalletsPage /> },
         //   { path: "/wallets/:id", element: <WalletDetailPage /> },
         //   { path: "/transactions", element: <TransactionsPage /> },
         //   { path: "/categories", element: <CategoriesPage /> },
@@ -31,7 +34,7 @@ const router = createBrowserRouter([
     ],
   },
 
-  { path: "*", element: <div className="min-h-screen flex items-center justify-center"><h1 className="text-2xl">Page non trouvée</h1></div> },
+  { path: "*", element:<NotFoundPage/>},
 ]);
 
 export default router;
