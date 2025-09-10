@@ -1,11 +1,25 @@
 @import "tailwindcss";
 @theme {
   --color-primary: #C8EE44;
+  --color-grayColorText:#929EAE;
+  --color-bgSidbarGray:#FAFAFA;
+  --color-BlackText:#1B212D;
+  /* Keep original (misspelled) for compatibility */
   --color-primar-hover: #b2d03b;
+  /* Correctly spelled hover token */
+  --color-primary-hover: #b2d03b;
 }
 
 
 * {
   font-family: sans-serif;
 
+}
+
+body {
+  background-color: #f8fafc; /* gray-50 */
+  color: #0f172a; /* slate-900 */
+}
+main{
+  background-color: white !important;
 }
