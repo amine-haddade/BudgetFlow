@@ -27,7 +27,7 @@ export const useAuth = () => {
         return { success: true };
       } else {
         return { success: false, error: result.payload as string };
-      }
+      } 
     } catch (error) {
       return { success: false, error: 'Erreur inattendue lors de la connexion' };
     }
