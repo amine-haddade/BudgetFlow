@@ -7,6 +7,7 @@ import RegisterPage from "../pages/Auth/RegisterPage";
 import WalletsPage from "../pages/WalletsPage";
 import DashbordPage from "../pages/DashbordPage";
 import NotFoundPage from "../pages/NotFoundPage";
+import TransactionPage from "../pages/TransactionPage";
 
 const router = createBrowserRouter([
   {
@@ -26,7 +27,7 @@ const router = createBrowserRouter([
           { path: "/", element:<DashbordPage/>},
           { path: "/wallets", element: <WalletsPage /> },
         //   { path: "/wallets/:id", element: <WalletDetailPage /> },
-        //   { path: "/transactions", element: <TransactionsPage /> },
+          { path: "/transactions", element: <TransactionPage /> },
         //   { path: "/categories", element: <CategoriesPage /> },
         //   { path: "/reports", element: <ReportsPage /> },
         ],

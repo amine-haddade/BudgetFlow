@@ -100,9 +100,9 @@ const DefaultLayout = () => {
       </aside>
 
       {/* Main column */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1  flex flex-col">
         {/* Top navbar */}
-        <header className="h-16 flex items-center justify-between px-6  bg-white sticky top-0 z-30 ">
+        <header className="h-16 flex   backdrop-blur-2xl items-center justify-between px-6  bg-white/30 sticky top-0 z-30 ">
           <div className="flex items-center gap-4">
             <button
               onClick={() => setSidebarOpen((s) => !s)}

@@ -1,15 +1,18 @@
-import axios,  {   type AxiosResponse,  type InternalAxiosRequestConfig } from 'axios';
-import { store } from '../Redux/Store';
-import { refreshToken, clearAuth } from '../Redux/slices/authSlice';
+import axios, {
+  type AxiosResponse,
+  type InternalAxiosRequestConfig,
+} from "axios";
+import { store } from "../Redux/Store";
+import { refreshToken, clearAuth } from "../Redux/slices/authSlice";
 
 // Configuration de base d'axios
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
   withCredentials: true, // Important pour les cookies
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
 });
 
@@ -22,11 +25,11 @@ apiClient.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     const state = store.getState();
     const token = state.auth.token;
-    
+
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-    
+
     return config;
   },
   (error) => {
@@ -36,16 +39,18 @@ apiClient.interceptors.request.use(
 
 // Interceptor pour gérer les réponses et le refresh token
 apiClient.interceptors.response.use(
-  (response: AxiosResponse) => {
-    return response;
-  },
+  (response: AxiosResponse) => response,
   async (error) => {
     const originalRequest = error.config as any;
 
     const status = error.response?.status;
-    const url: string = originalRequest?.url || '';
-    const isAuthEndpoint = ['/api/auth/login', '/api/auth/register', '/api/auth/refresh-token', '/api/auth/logout']
-      .some((path) => url.includes(path));
+    const url: string = originalRequest?.url || "";
+    const isAuthEndpoint = [
+      "/api/auth/login",
+      "/api/auth/register",
+      "/api/auth/refresh-token",
+      "/api/auth/logout",
+    ].some((path) => url.includes(path));
 
     // Ne jamais tenter de refresh pour les endpoints d'auth eux-mêmes
     if (isAuthEndpoint) {
@@ -68,7 +73,7 @@ apiClient.interceptors.response.use(
             .catch((refreshError: any) => {
               // Si le refresh échoue, on nettoie et redirige
               store.dispatch(clearAuth());
-              window.location.href = '/login';
+              window.location.href = "/login";
               throw refreshError;
             })
             .finally(() => {

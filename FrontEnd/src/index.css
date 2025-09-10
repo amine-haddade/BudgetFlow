@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 @theme {
@@ -25,8 +24,7 @@ body {
   background-color: #f8fafc; /* gray-50 */
   color: #0f172a; /* slate-900 */
 }
-main{
-  background-color: white !important;
+
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -38,7 +36,10 @@ main{
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
+  /* Utiliser la valeur hexadécimale directement au lieu de var(--primary) */
+  --color-primary: #C8EE44;
+  /* Définir également la couleur hover directement */
+  --color-primary-hover: #b2d03b;
   --color-primary-foreground: var(--primary-foreground);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
