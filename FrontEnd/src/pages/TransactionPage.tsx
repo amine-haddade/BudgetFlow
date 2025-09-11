@@ -6,8 +6,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../components/ui/select";
+import { useState } from "react";
+import TransactionList from "../components/Dashboard/TransactionList";
+import TransactionModal from "../components/Dashboard/AddTransactionModal";
 
 function TransactionPage() {
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
   return (
     <div className="space-y-6">
       {/* Header Section */}
@@ -25,7 +30,10 @@ function TransactionPage() {
             <Download size={18} />
             Export
           </button>
-          <button className="bg-primary hover:bg-primary-hover px-4 py-2 cursor-pointer rounded-lg shadow-lg hover:shadow-xl transition-all text-black font-medium duration-300 flex items-center gap-2">
+          <button
+                  onClick={() => setIsModalOpen(true)}
+
+          className="bg-primary hover:bg-primary-hover px-4 py-2 cursor-pointer rounded-md   shadow-lg hover:shadow-xl transition-all text-black font-medium duration-300 flex items-center gap-2">
             <Plus size={18} />
             Add Transaction
           </button>
@@ -88,6 +96,13 @@ function TransactionPage() {
       </div>
 
       {/* Transactions list will be added here */}
+      <TransactionList />
+
+      {/* Modal */}
+      <TransactionModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
   );
 }

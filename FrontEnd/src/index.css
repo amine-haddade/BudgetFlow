@@ -38,8 +38,6 @@ body {
   --color-popover-foreground: var(--popover-foreground);
   /* Utiliser la valeur hexadécimale directement au lieu de var(--primary) */
   --color-primary: #C8EE44;
-  /* Définir également la couleur hover directement */
-  --color-primary-hover: #b2d03b;
   --color-primary-foreground: var(--primary-foreground);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
