@@ -1,6 +1,7 @@
 import { X, TrendingUp, TrendingDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 
 export default function TransactionModal({ isOpen, onClose }: any) {
   const [transactionType, setTransactionType] = useState<"income" | "expense">("income");
@@ -125,24 +126,31 @@ export default function TransactionModal({ isOpen, onClose }: any) {
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Wallet</label>
-                  <select
-                    className="w-full border border-gray-300 rounded-xl px-3 py-2 mt-1 focus:ring-2 focus:ring-primary focus:border-transparent shadow-sm transition-all"
-                  >
-                    <option value="">Select wallet</option>
-                    <option value="wallet1">Main Wallet</option>
-                    <option value="wallet2">Savings</option>
-                  </select>
+                  <Select>
+              <SelectTrigger className="w-full cursor-pointer">
+                <SelectValue placeholder="Type" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="light">All Wallet</SelectItem>
+                <SelectItem value="dark">Personne Wallet</SelectItem>
+                <SelectItem value="system">Sport Wallet</SelectItem>
+              </SelectContent>
+            </Select>
+            
+          
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
-                  <select
-                    className="w-full border border-gray-300 rounded-xl px-3 py-2 mt-1 focus:ring-2 focus:ring-primary focus:border-transparent shadow-sm transition-all"
-                  >
-                    <option value="">Select category</option>
-                    <option value="cat1">Food</option>
-                    <option value="cat2">Transport</option>
-                    <option value="cat3">Entertainment</option>
-                  </select>
+                   <Select   >
+              <SelectTrigger className="w-full cursor-pointer">
+                <SelectValue placeholder="Type" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="light">All Ctageories</SelectItem>
+                <SelectItem value="dark">Personne Gtegorie</SelectItem>
+                <SelectItem value="system">Sport Gategorie</SelectItem>
+              </SelectContent>
+            </Select>
                 </div>
               </div>
               

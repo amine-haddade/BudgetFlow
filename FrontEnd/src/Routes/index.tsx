@@ -8,6 +8,8 @@ import WalletsPage from "../pages/WalletsPage";
 import DashbordPage from "../pages/DashbordPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import TransactionPage from "../pages/TransactionPage";
+import TransactionByWallet from "../pages/TransactionByWallet";
+import CategoriesPage from "../pages/CategoriesPage";
 
 const router = createBrowserRouter([
   {
@@ -26,9 +28,9 @@ const router = createBrowserRouter([
         children: [
           { path: "/", element:<DashbordPage/>},
           { path: "/wallets", element: <WalletsPage /> },
-        //   { path: "/wallets/:id", element: <WalletDetailPage /> },
+          { path: "/wallets/:id/transaction", element: <TransactionByWallet /> },
           { path: "/transactions", element: <TransactionPage /> },
-        //   { path: "/categories", element: <CategoriesPage /> },
+          { path: "/categories", element: <CategoriesPage /> },
         //   { path: "/reports", element: <ReportsPage /> },
         ],
       },

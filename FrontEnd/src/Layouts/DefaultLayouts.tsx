@@ -14,7 +14,8 @@ import {
   Search, 
   Bell, 
   Menu, 
-  ChevronDown
+  ChevronDown,
+  ChartBarStacked
 } from 'lucide-react';
 // import { Toaster } from "sonner";
 import profilPhoto from "../assets/profilPhoto.jpeg"
@@ -30,19 +31,21 @@ const DefaultLayout = () => {
   const handleLogout = async () => {
     await logout();
   };
+const pageTitle = useMemo(() => {
+  const path = location.pathname.toLowerCase();
+  if (path.includes("wallet") && !path.includes("transaction")) return "My Wallets";
+  if (/^\/wallets\/\d+\/transaction$/.test(path)) return "Mes Transactions";
+  if (path.includes("transaction")) return "Transactions";
+  if (path.includes("invoice")) return "Invoices";
+  if (path.includes("category")) return "Categories";
+  if (path === "/" || path.includes("dashboard")) return "Dashboard";
+  return path
+    .replace("/", "")
+    .split("-")
+    .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+    .join(" ");
+}, [location.pathname]);
 
-  const pageTitle = useMemo(() => {
-    const path = location.pathname.toLowerCase();
-    if (path.includes("wallet")) return "My Wallets";
-    if (path.includes("transaction")) return "Transactions";
-    if (path.includes("invoice")) return "Invoices";
-    if (path === "/" || path.includes("dashboard")) return "Dashboard";
-    return path
-      .replace("/", "")
-      .split("-")
-      .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
-      .join(" ");
-  }, [location.pathname]);
 
   const navItemClasses = ({ isActive }: { isActive: boolean }) =>
     `flex items-center gap-3 px-4  py-2.5 rounded-lg transition-colors text-[14px] font-medium ${
@@ -76,6 +79,10 @@ const DefaultLayout = () => {
           <NavLink to="/invoices" className={navItemClasses}>
             <Receipt size={20} />
             {sidebarOpen && <span>Invoices</span>}
+          </NavLink>
+          <NavLink to="/categories" className={navItemClasses}>
+            <ChartBarStacked size={20}/>
+            {sidebarOpen && <span>Categories</span>}
           </NavLink>
           <NavLink to="/wallets" className={navItemClasses}>
             <Wallet size={20} />
