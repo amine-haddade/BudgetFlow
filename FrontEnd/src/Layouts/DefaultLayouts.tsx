@@ -1,8 +1,8 @@
 import { useSelector } from "react-redux";
-import { Outlet, Navigate, NavLink, useLocation } from "react-router-dom";
+import { Outlet, Navigate, NavLink, useLocation, useNavigate } from "react-router-dom";
 import type { RootState } from "../Redux/Store";
 import { useAuth } from "../hooks/useAuth";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useRef, useEffect } from "react";
 import { 
   LayoutDashboard, 
   ArrowRightLeft, 
@@ -13,10 +13,12 @@ import {
   LogOut, 
   Search, 
   Bell, 
-  Menu, 
+  Menu,
+  ChartBarStacked,
   ChevronDown,
-  ChartBarStacked
+  User
 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 // import { Toaster } from "sonner";
 import profilPhoto from "../assets/profilPhoto.jpeg"
 
@@ -24,12 +26,37 @@ const DefaultLayout = () => {
   const { user, isAuthenticated } = useSelector((state: RootState) => state.auth);
   const { logout } = useAuth();
   const location = useLocation();
+  const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(true);
+  const [profileDropdownOpen, setProfileDropdownOpen] = useState<boolean>(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   if (!isAuthenticated || !user) return <Navigate to="/login" replace />;
 
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setProfileDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   const handleLogout = async () => {
     await logout();
+  };
+
+  const handleProfileClick = () => {
+    navigate('/profile');
+    setProfileDropdownOpen(false);
+  };
+
+  const handleSettingsClick = () => {
+    navigate('/settings');
+    setProfileDropdownOpen(false);
   };
 const pageTitle = useMemo(() => {
   const path = location.pathname.toLowerCase();
@@ -133,18 +160,85 @@ const pageTitle = useMemo(() => {
             <button  className="p-2 rounded-full   hover:bg-gray-100 text-gray-500" aria-label="Notifications">
               <Bell size={20} />
             </button>
-            <div  className ="  flex rounded-4xl  hover:bg-gray-100  duration-300 gap-7 justify-between">
-            <div className="flex items-center gap-3 cursor-pointer">
-              <img
-                src={profilPhoto}
-                alt="avatar"
-                className="w-9 h-9 object-cover rounded-full"
-              />
-              <div className="hidden sm:block">
-                <p className="text-sm text-gray-800 font-semibold">{user.name}</p>
+            <div className="relative" ref={dropdownRef}>
+              <div 
+                className="flex rounded-lg hover:bg-gray-100 duration-300 px-3 py-2 cursor-pointer"
+                onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
+              >
+                <div className="flex items-center gap-3">
+                  <img
+                    src={profilPhoto}
+                    alt="avatar"
+                    className="w-9 h-9 object-cover rounded-full"
+                  />
+                  <div className="hidden sm:block">
+                    <p className="text-sm text-gray-800 font-semibold">{user.name}</p>
+                  </div>
+                  <motion.div
+                    animate={{ rotate: profileDropdownOpen ? 180 : 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <ChevronDown size={18} className="text-gray-400" />
+                  </motion.div>
+                </div>
               </div>
-              <ChevronDown size={18} className="text-gray-400" />
-            </div>
+
+              {/* Dropdown Menu */}
+              <AnimatePresence>
+                {profileDropdownOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute right-0 mt-2 w-70 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50"
+                  >
+                    {/* User Info Section */}
+                    <div className="px-4 py-3 border-b border-gray-100">
+                      <div className="flex items-center gap-3">
+                        <img
+                          src={profilPhoto}
+                          alt="avatar"
+                          className="w-10 h-10 object-cover rounded-full"
+                        />
+                        <div>
+                          <p className="text-sm font-semibold text-gray-900">{user.name}</p>
+                          <p className="text-xs text-gray-500">{user.email}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Menu Items */}
+                    <div className="py-1">
+                      <button
+                        onClick={handleProfileClick}
+                        className="w-full  cursor-pointer flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                      >
+                        <User size={16} />
+                        <span>Profile</span>
+                      </button>
+
+                      <button
+                        onClick={handleSettingsClick}
+                        className="w-full flex  cursor-pointer items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                      >
+                        <Settings size={16} />
+                        <span>Settings</span>
+                      </button>
+
+                      <div className="border-t border-gray-100 my-1"></div>
+
+                      <button
+                        onClick={handleLogout}
+                        className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                      >
+                        <LogOut size={16} />
+                        <span>Logout</span>
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </div>
         </header>

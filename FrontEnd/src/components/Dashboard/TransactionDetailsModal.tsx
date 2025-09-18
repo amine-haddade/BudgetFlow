@@ -1,4 +1,4 @@
-import { X, TrendingUp, TrendingDown, Calendar, Wallet, Tag, FileText, Edit, Trash2 } from "lucide-react";
+import { X, TrendingUp, TrendingDown, Calendar, Wallet, Tag, FileText, Trash2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface TransactionDetailsModalProps {
@@ -125,16 +125,9 @@ export default function TransactionDetailsModal({ isOpen, onClose, transaction }
               
               {/* Action Buttons */}
               <div className="flex gap-3 pt-2">
+                
                 <motion.button
-                  className="flex-1 bg-primary  cursor-pointer hover:bg-primary-hover text-black font-medium px-4 py-2 rounded-sm flex items-center justify-center gap-1 duration-300"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <Edit size={16} />
-                  Edit
-                </motion.button>
-                <motion.button
-                  className="flex-1 bg-white border  cursor-pointer border-red-500 text-red-500 font-medium px-4 py-2 rounded-sm flex items-center justify-center gap-1 hover:bg-red-50 duration-300"
+                  className="flex-1 bg-white border  cursor-pointer border-red-500 text-red-500 font-medium px-4 py-2 rounded-sm flex items-center justify-center gap-1 hover:bg-red-100 duration-300"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >

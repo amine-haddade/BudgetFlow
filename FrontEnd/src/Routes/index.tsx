@@ -10,6 +10,7 @@ import NotFoundPage from "../pages/NotFoundPage";
 import TransactionPage from "../pages/TransactionPage";
 import TransactionByWallet from "../pages/TransactionByWallet";
 import CategoriesPage from "../pages/CategoriesPage";
+import ProfilePage from "../pages/ProfilePage";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,7 @@ const router = createBrowserRouter([
           { path: "/wallets/:id/transaction", element: <TransactionByWallet /> },
           { path: "/transactions", element: <TransactionPage /> },
           { path: "/categories", element: <CategoriesPage /> },
+          { path: "/profile", element: <ProfilePage /> },
         //   { path: "/reports", element: <ReportsPage /> },
         ],
       },

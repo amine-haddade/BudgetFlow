@@ -166,7 +166,7 @@ export default function TransactionModal({ isOpen, onClose }: any) {
 
               <motion.button
                 type="submit"
-                className="bg-primary hover:bg-primary-hover text-black font-semibold px-5 py-2 rounded-lg w-full shadow-md hover:shadow-lg transition-all mt-1"
+                className="bg-primary hover:bg-primary-hover text-black  cursor-pointer  px-5 py-2 rounded-lg w-full shadow-md duration-300 hover:shadow-lg transition-all mt-1"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >

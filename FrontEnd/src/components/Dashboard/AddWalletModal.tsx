@@ -2,6 +2,7 @@ import { X } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 
 interface WalletModalProps {
   isOpen: boolean;
@@ -71,17 +72,19 @@ const WalletModal = ({ isOpen, onClose }: WalletModalProps) => {
             
             {/* Currency and Initial Budget - Two Columns */}
             <div className="grid grid-cols-2 gap-3">
-              <div>
+              <div className="flex flex-col  justify-between ">
                 <label className="block text-sm font-medium text-gray-700 mb-1">Currency</label>
-                <select
-                  className="w-full border border-gray-300 rounded-xl px-3 py-2 mt-1 focus:ring-2 focus:ring-primary focus:border-transparent shadow-sm transition-all"
-                  required
-                >
-                  <option value="">Select currency</option>
-                  <option value="USD">USD ($)</option>
-                  <option value="EUR">EUR (€)</option>
-                  <option value="GBP">GBP (£)</option>
-                </select>
+                <Select>
+              <SelectTrigger className="w-full  text-md  cursor-pointer">
+                <SelectValue placeholder="Type" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="mad">🇲🇦 MAD (Dirham)</SelectItem>
+<SelectItem value="usd">💵 USD (Dollar)</SelectItem>
+<SelectItem value="eur">💶 EUR (Euro)</SelectItem>
+
+              </SelectContent>
+            </Select>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Initial Budget</label>
@@ -89,7 +92,7 @@ const WalletModal = ({ isOpen, onClose }: WalletModalProps) => {
                   <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500">$</span>
                   <input
                     type="number"
-                    className="w-full border border-gray-300 rounded-xl pl-8 pr-3 py-2 mt-1 focus:ring-2 focus:ring-primary focus:border-transparent shadow-sm transition-all"
+                    className="w-full border border-gray-300 rounded-lg pl-8 pr-3 py-1.5 text-md mt-1 focus:ring-2 focus:ring-primary focus:border-transparent shadow-sm transition-all"
                     placeholder="Ex: 1000.00"
                     required
                   />

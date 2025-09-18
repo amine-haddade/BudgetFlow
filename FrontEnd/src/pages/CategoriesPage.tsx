@@ -254,13 +254,13 @@ function CategoriesPage() {
               <div className="flex gap-2">
                 <button 
                   onClick={() => handleDropdownAction('edit', category)}
-                  className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-4 rounded-lg font-medium transition-colors text-sm"
+                  className="flex-1 bg-gray-100  duration-300 cursor-pointer hover:bg-gray-200 text-gray-700 py-2 px-4 rounded-md transition-colors text-sm"
                 >
                   Edit
                 </button>
                 <button 
                   onClick={() => handleDropdownAction('view-details', category)}
-                  className="flex-1 bg-primary hover:bg-primary-hover text-black py-2 px-4 rounded-lg font-medium transition-colors text-sm"
+                  className="flex-1 bg-primary hover:bg-primary-hover text-black py-2 px-4 rounded-md duration-300 cursor-pointer transition-colors text-sm"
                 >
                   View Details
                 </button>
